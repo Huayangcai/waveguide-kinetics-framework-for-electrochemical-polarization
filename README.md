@@ -117,6 +117,7 @@ If you use this code in academic work, please cite the associated paper (add you
 （2）B. Chen, H. Cai, A waveguide kinetics framework for electrochemical polarization. arXiv, doi xxxxxx.
 ## License
 
+Attribution-ShareAlike 3.0 Unported
 
 ## Contact
 
