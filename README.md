@@ -1,142 +1,265 @@
 # waveguide-kinetics-framework-for-electrochemical-polarization
 
-A theory-neutral **waveguide kinetics** framework that reinterprets electrochemical polarization curves as a power-flow-like response, enabling a compact **modal (multi-channel) representation** of interfacial kinetics under a unified waveguide-invariant mapping.
+A **waveguide-kinetics framework** for electrochemical polarization that reinterprets interfacial current–overpotential relations as a **power-flow–like response** in a lossy one-dimensional waveguide.
+The framework enables a compact **modal (multi-channel) decomposition** of electrochemical kinetics and a unified **waveguide-invariant mapping** between current, feedback, and power-transfer metrics.
 
-This repository currently provides two MATLAB scripts used to generate the paper figures:
-
-* **Figure01.m**: conceptual two-mode kinetics visualization (flux-based “Scheme A”).
-* **Figure02.m**: summary plotting utility that reads precomputed `.mat` outputs (no refit) and assembles a multi-row figure.
-* **Universal_Waveguide_Fit.m**: Universal Waveguide Electrochemistry Analysis Program
+This repository provides **three MATLAB programs** used in the associated papers to (i) illustrate the conceptual two-mode kinetics, (ii) assemble multi-dataset summary figures without refitting, and (iii) perform **universal waveguide-based fitting and analysis** of experimental polarization data.
 
 ---
 
 ## Contents
 
-* `Figure01.m`
-  Generates a **3×2** figure (cathodic vs anodic columns) illustrating:
+### `Figure01.m`
 
-  1. bounded current-like proxy (\tilde{j}) for Mode A, Mode B, and total response,
-  2. the feedback ratio (\rho(\tilde{\eta})) (flux-based),
-  3. the power-flow density metric (\Pi_{\mathrm{dens}}(\tilde{\eta})) and its optimum markers.
-     Output: `Figure01.png` (600 dpi).
+**Conceptual two-mode waveguide kinetics visualization (flux-based “Scheme A”)**
 
-* `Figure02.m`
-  Reads **4 saved MAT files** (one dataset per row) and generates a **4×2** summary figure:
+Generates a **3 × 2** figure (cathodic vs anodic columns) illustrating:
 
-  * left panel: raw data + stored fit curves (no refit),
-  * right panel: (\Pi_{\mathrm{dens}}(\tilde{\eta})) + optimum markers (no refit).
-    Output: user-specified PNG (default: `Figure 02.png`, 600 dpi).
-    
-* `Universal_Waveguide_Fit.m`
-  * The program automatically detects the input data format and processes it
-  * accordingly. It supports four different case formats:
-  *  - Case01: CSV format with pH, U (vs SHE), and current density columns
-  *   - Case02: Excel format with grouped potential/current density pairs
-  *   - Case03: Excel format with pH grouping and catalyst information
-  *   - Case04: Excel format with block-structured data
-  *
-  * Usage:
-  *   Universal_Waveguide_Fit()              % Interactive file selection
-  *   Universal_Waveguide_Fit(filePath)     % Use specified file
-  *
-  * Output:
-  *   - Optimized parameters saved to text files
-  *   - Figures saved as PNG and FIG formats
-  *   - Data saved as MAT files
+1. **Bounded current-like proxy** (\tilde{j}(\tilde{\eta}))
+
+   * Mode A
+   * Mode B
+   * Total response
+
+2. **Feedback ratio** (\rho(\tilde{\eta}))
+
+   * Flux-based definition derived from the waveguide invariant
+
+3. **Power-flow density metric** (\Pi_{\mathrm{dens}}(\tilde{\eta}))
+
+   * With automatically identified optimum operating points
+
+**Output**
+
+* `Figure01.png` (600 dpi)
+
+This script is **theoretical and self-contained** and does **not** read external data files.
+
+---
+
+### `Figure02.m`
+
+**Multi-dataset summary plotting utility (no refit)**
+
+Reads **four precomputed `.mat` files** (one dataset per row) and assembles a **4 × 2** summary figure:
+
+* **Left column**: raw polarization data + stored fitted curves
+* **Right column**: (\Pi_{\mathrm{dens}}(\tilde{\eta})) with optimum markers
+
+All curves and markers are plotted **exactly as stored** in the MAT files —
+**no refitting or re-optimization is performed**.
+
+**Output**
+
+* User-specified PNG (default: `Figure02.png`, 600 dpi)
+
+This script is intended for **figure assembly and comparison across systems**.
+
+---
+
+### `Universal_Waveguide_Fit.m`
+
+**Universal Waveguide Electrochemical Analysis Program**
+
+A full analysis pipeline that:
+
+* Automatically **detects the input data format**
+* Performs **waveguide-kinetics fitting**
+* Extracts **modal parameters**, feedback metrics, and power-flow quantities
+* Saves **figures, fitted data, and MAT files** compatible with `Figure02.m`
+
+#### Supported input formats
+
+The program automatically recognizes **four data layouts**:
+
+* **Case 01**
+  CSV format with columns:
+
+  * pH
+  * Potential (vs SHE)
+  * Current density
+
+* **Case 02**
+  Excel format with grouped potential–current pairs
+
+* **Case 03**
+  Excel format with pH grouping and catalyst metadata
+
+* **Case 04**
+  Excel format with block-structured datasets
+
+#### Usage
+
+```matlab
+Universal_Waveguide_Fit()              % Interactive file selection
+Universal_Waveguide_Fit(filePath)     % Specify input file explicitly
+```
+
+#### Outputs
+
+* Optimized parameters saved as **text files**
+* Figures saved as **PNG** and **FIG**
+* Analysis results saved as **MAT files**
+  (directly usable by `Figure02.m`)
+
 ---
 
 ## Requirements
 
-* MATLAB **R2019b+** (recommended R2020b+), mainly for `tiledlayout`.
-* No special toolboxes are required for plotting.
-* For `Figure02.m`, you need `.mat` files containing a variable `OUT` with the expected fields (see below).
+* MATLAB **R2019b+** (R2020b+ recommended)
+
+  * Mainly for `tiledlayout`
+* No special toolboxes are required for plotting
+* `Figure02.m` requires `.mat` files containing a variable named `OUT` (see below)
 
 ---
 
 ## Quick Start
 
-### 1) Generate Figure 01 (conceptual two-mode kinetics)
+### 1) Generate Figure 01
 
-1. Place `Figure01.m` in your working directory (or add it to MATLAB path).
-2. Run:
+**Conceptual two-mode waveguide kinetics**
 
 ```matlab
 Figure01
 ```
 
-3. The script will save:
+This produces:
 
-* `Figure01.png` (600 dpi) in the current folder.
+* `Figure01.png` (600 dpi)
 
-> To change parameter sets (mode strengths, asymmetry (\xi), growth rate (\lambda), ranges of (\tilde{\eta}), etc.), edit the `cfg` struct at the top of `Figure01.m`.
+> To modify mode strengths, asymmetry parameters (\xi), growth rates (\lambda), or the range of (\tilde{\eta}), edit the `cfg` structure at the top of `Figure01.m`.
 
 ---
 
-### 2) Generate Figure 02 (summary figure from saved `.mat` results)
+### 2) Run universal waveguide fitting on experimental data
 
-`Figure02.m` assembles a 4×2 multi-row summary from **exactly four** MAT files.
+```matlab
+Universal_Waveguide_Fit
+```
 
-#### Default usage
+or
+
+```matlab
+Universal_Waveguide_Fit('your_data_file.xlsx')
+```
+
+This generates:
+
+* Fitted figures
+* Parameter text files
+* MAT files compatible with `Figure02.m`
+
+---
+
+### 3) Assemble the summary figure (Figure 02)
+
+By default, `Figure02.m` expects **exactly four** MAT files:
 
 ```matlab
 Figure02
 ```
 
-By default it expects these files in the working directory (or script directory):
+Default filenames:
 
-* `Figure_data01.mat`, `Figure_data02.mat`, `Figure_data03.mat`, `Figure_data04.mat`
+* `Figure_data01.mat`
+* `Figure_data02.mat`
+* `Figure_data03.mat`
+* `Figure_data04.mat`
 
-#### Custom usage
+Custom usage:
 
 ```matlab
-matFiles = {'Figure_data01.mat','Figure_data02.mat','Figure_data03.mat','Figure_data04.mat'};
+matFiles = {
+    'Figure_data01.mat'
+    'Figure_data02.mat'
+    'Figure_data03.mat'
+    'Figure_data04.mat'
+};
 Figure02(matFiles, 'Figure02.png');
 ```
 
 ---
 
-## Input `.mat` format expected by `Figure02.m`
+## Expected MAT structure for `Figure02.m`
 
-Each MAT file must contain a variable named `OUT`. The script expects:
+Each MAT file must contain a variable named `OUT`.
 
-### Required
+### Required fields
 
-* `OUT.RES` : array of structs (raw data per group)
+#### `OUT.RES` — raw data
 
-  * `OUT.RES(g).eta` : raw overpotential (V)
-  * `OUT.RES(g).j`   : raw current density (e.g., mA cm(^{-2}))
+Array of structs, one per group:
 
-* `OUT.D` : cell array (or struct array convertible to cell), one cell per group
-  Typical fields used:
+* `OUT.RES(g).eta`
+  Raw overpotential (V)
 
-  * `OUT.D{g}.etaFine` : fine grid (V)
-  * `OUT.D{g}.jFit`    : fitted curve on `etaFine`
-  * `OUT.D{g}.eta_t`       : dimensionless overpotential (\tilde{\eta})
-  * `OUT.D{g}.Pi_dens_t`   : (\Pi_{\mathrm{dens}}(\tilde{\eta}))
-  * `OUT.D{g}.etaStar_t`   : optimal (\tilde{\eta}^*) (optional but recommended)
-  * `OUT.D{g}.PiStar_t`    : optimal (\Pi_{\mathrm{dens}}^*) (optional but recommended)
+* `OUT.RES(g).j`
+  Raw current density (e.g. mA cm(^{-2}))
 
-## Output
+---
 
-Both scripts export **high-resolution PNG** using:
+#### `OUT.D` — processed and fitted results
+
+Cell array (or convertible struct array), one cell per group.
+
+Commonly used fields:
+
+* `OUT.D{g}.etaFine`
+  Fine potential grid (V)
+
+* `OUT.D{g}.jFit`
+  Stored fitted curve on `etaFine`
+
+* `OUT.D{g}.eta_t`
+  Dimensionless overpotential (\tilde{\eta})
+
+* `OUT.D{g}.Pi_dens_t`
+  Power-flow density (\Pi_{\mathrm{dens}}(\tilde{\eta}))
+
+* `OUT.D{g}.etaStar_t` *(optional but recommended)*
+  Optimal (\tilde{\eta}^*)
+
+* `OUT.D{g}.PiStar_t` *(optional but recommended)*
+  Optimal (\Pi_{\mathrm{dens}}^*)
+
+---
+
+## Output and Resolution
+
+All figures are exported as **high-resolution PNG files** using:
 
 * `-r600` (600 dpi)
 
-Files are saved to the current working directory unless you modify the output path.
+Files are saved in the current working directory unless the output path is modified.
 
 ---
 
 ## Citation
 
-If you use this code in academic work, please cite the associated papers:
-（1）H. Cai, B. Chen, A universal waveguide mass-energy relation for lossy one-dimensional waves in nature. arXiv, https://doi.org/10.48550/arXiv.2602.04171 (2026).
-（2）B. Chen, H. Cai, A waveguide kinetics framework for electrochemical polarization. arXiv, http://arxiv.org/abs/2602.05455 (2026).
+If you use this code in academic work, please cite:
+
+1. **H. Cai, B. Chen**,
+   *A universal waveguide mass–energy relation for lossy one-dimensional waves in nature*,
+   arXiv (2026). [https://doi.org/10.48550/arXiv.2602.04171](https://doi.org/10.48550/arXiv.2602.04171)
+
+2. **B. Chen, H. Cai**,
+   *A waveguide kinetics framework for electrochemical polarization*,
+   arXiv (2026). [http://arxiv.org/abs/2602.05455](http://arxiv.org/abs/2602.05455)
+
+---
+
 ## License
 
-Attribution-ShareAlike 3.0 Unported
+**Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)**
+
+---
 
 ## Contact
 
-For questions, issues, or reproducibility requests, please open a GitHub Issue in this repository or contact: caihy7@mail.sysu.edu.cn.
+For questions, issues, or reproducibility requests:
 
+* Open a **GitHub Issue** in this repository
+* or contact: **[caihy7@mail.sysu.edu.cn](mailto:caihy7@mail.sysu.edu.cn)**
 
+---
