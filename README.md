@@ -6,6 +6,7 @@ This repository currently provides two MATLAB scripts used to generate the paper
 
 * **Figure01.m**: conceptual two-mode kinetics visualization (flux-based “Scheme A”).
 * **Figure02.m**: summary plotting utility that reads precomputed `.mat` outputs (no refit) and assembles a multi-row figure.
+* **Universal_Waveguide_Fit.m**: Universal Waveguide Electrochemistry Analysis Program
 
 ---
 
@@ -25,7 +26,23 @@ This repository currently provides two MATLAB scripts used to generate the paper
   * left panel: raw data + stored fit curves (no refit),
   * right panel: (\Pi_{\mathrm{dens}}(\tilde{\eta})) + optimum markers (no refit).
     Output: user-specified PNG (default: `Figure 02.png`, 600 dpi).
-
+    
+* `Universal_Waveguide_Fit.m`
+  * The program automatically detects the input data format and processes it
+  * accordingly. It supports four different case formats:
+  *  - Case01: CSV format with pH, U (vs SHE), and current density columns
+  *   - Case02: Excel format with grouped potential/current density pairs
+  *   - Case03: Excel format with pH grouping and catalyst information
+  *   - Case04: Excel format with block-structured data
+  *
+  * Usage:
+  *   Universal_Waveguide_Fit()              % Interactive file selection
+  *   Universal_Waveguide_Fit(filePath)     % Use specified file
+  *
+  * Output:
+  *   - Optimized parameters saved to text files
+  *   - Figures saved as PNG and FIG formats
+  *   - Data saved as MAT files
 ---
 
 ## Requirements
@@ -113,8 +130,8 @@ Files are saved to the current working directory unless you modify the output pa
 
 If you use this code in academic work, please cite the associated paper (add your final bibliographic entry here):
 
-（1）H. Cai, B. Chen, A universal waveguide mass-energy relation for lossy one-dimensional waves in nature. arXiv, doi xxxxxx.
-（2）B. Chen, H. Cai, A waveguide kinetics framework for electrochemical polarization. arXiv, doi xxxxxx.
+（1）H. Cai, B. Chen, A universal waveguide mass-energy relation for lossy one-dimensional waves in nature. arXiv, https://doi.org/10.48550/arXiv.2602.04171 (2026).
+（2）B. Chen, H. Cai, A waveguide kinetics framework for electrochemical polarization. arXiv, http://arxiv.org/abs/2602.05455 (2026).
 ## License
 
 Attribution-ShareAlike 3.0 Unported
