@@ -128,8 +128,7 @@ Files are saved to the current working directory unless you modify the output pa
 
 ## Citation
 
-If you use this code in academic work, please cite the associated paper (add your final bibliographic entry here):
-
+If you use this code in academic work, please cite the associated papers:
 （1）H. Cai, B. Chen, A universal waveguide mass-energy relation for lossy one-dimensional waves in nature. arXiv, https://doi.org/10.48550/arXiv.2602.04171 (2026).
 （2）B. Chen, H. Cai, A waveguide kinetics framework for electrochemical polarization. arXiv, http://arxiv.org/abs/2602.05455 (2026).
 ## License
